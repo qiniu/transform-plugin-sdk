@@ -25,7 +25,7 @@ public abstract class JavaParser extends Parser {
   /**
    * 获取用户在plugin中输入的所有字段
    *
-   * @return 返回List<String>, 即用户在plugin中输入的所有字段
+   * @return 返回类型为String的List, 即用户在plugin中输入的所有字段
    */
   @Override
   public List<String> getPluginFields() {
@@ -44,7 +44,7 @@ public abstract class JavaParser extends Parser {
 
   /**
    * @param originData 用户每行打点/输入数据
-   * @return 返回List<Row>, 其中每行数据必须由原始输入数据与pluginFields中每个字段对应的字段值共同组成
+   * @return 返回类型为Row的List, 其中每行数据row必须由原始输入数据与pluginFields中每个字段对应的字段值共同组成
    */
   abstract public List<Row> parse(Row originData);
 }
