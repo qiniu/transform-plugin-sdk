@@ -18,9 +18,16 @@ abstract class ScalaParser(order: Integer,
                            schema: StructType,
                            configuration: Map[String, JSerializable]) extends Parser(order, pluginFields, schema, configuration) {
   /**
+    * 获取经过plugin处理后每行数据的schema
+    *
+    * @return 返回StructType, 即经过plugin处理后每行数据的schema
+    */
+  override def getSchema(): StructType = schema
+
+  /**
     *
     * @param originData 用户每行打点/输入数据
-    * @return 返回一个Seq, 其中每行数据必须由原始输入数据与pluginFields中每个字段对应的字段值共同组成
+    * @return 返回Seq[Row], 其中每行数据必须由原始输入数据与pluginFields中每个字段对应的字段值共同组成
     */
   def parse(originData: Row): Seq[Row]
 }
