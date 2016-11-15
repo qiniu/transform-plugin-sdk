@@ -7,19 +7,29 @@ maven方式:
 <dependency>
   <groupId>com.qiniu</groupId>
   <artifactId>transform-plugin-sdk</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
+  <scope>provided</scope>
 </dependency>
 ```
 或者sbt方式:
 
 ```
-"com.qiniu" %% "transform-plugin-sdk" % 1.0.0
+"com.qiniu" %% "transform-plugin-sdk" % 1.0.1 % "provided"
 ```
 
 或者gradle方式：
 
 ```
-compile 'com.qiniu:transform-plugin-sdk:1.0.0'
+configurations {
+    provided
+}
+  sourceSets {
+    main { compileClasspath += configurations.provided }
+}
+  dependencies {
+    provided 'com.qiniu:transform-plugin-sdk:1.0.1'
+}
+
 ```
 
 ## plugin编写
@@ -96,7 +106,44 @@ compile 'com.qiniu:transform-plugin-sdk:1.0.0'
 ，上面`parse`是单行到单行间的转换，因此输出的parseResult中仅包含一行数据，该行数据需要在输入行数据后面继续按顺序追加`output`中所有字段。如果对于是单行到N行转换的parse，则输出的parseResult中包含N行数据，其中每行数据仍需按顺序继续追加`output`中所有字段。
 
 
-### Tips相关辅助函数说明
+### 注意事项以及相关辅助函数说明
+
+* 编写Parser类注意事项，假设现需要用Java和Scala分别编写`UserDefinedJavaParser`和`UserDefinedScalaParser`两种`plugin`:
+
+**Java**
+
+``` java
+
+class UserDefinedJavaParser extends JavaParser{
+	// 1. UserDefinedJavaParser需要提供如下构造函数
+	public UserDefinedJavaParser(Integer order, List<String> pluginFields, StructType schema, Map<String, Serializable> configuration) {
+   		 super(order, pluginFields, schema, configuration);
+ 	 }
+  // 2. 根据Java语言编写plugin的说明实现parse方法
+   public List<Row> parse(Row originData) {
+   
+      }
+}
+
+```
+
+**Scala**
+
+``` scala
+// 1. 与java类似，需要提供如下构造函数
+class UserDefinedScalaParser (order: Integer,
+                 pluginFields: Seq[String],
+                 schema: StructType,
+                 configuration: Map[String, JSerializable]) extends ScalaParser(order, pluginFields, schema, configuration) {
+ // 2. 根据Scala语言编写plugin的说明实现parse方法
+ override def parse(originData: Row): Seq[Row] = {
+   
+  }
+ 
+ }
+
+```
+
 * 获取原始行数据中某个key对应的value:
 
 **Java**
