@@ -7,10 +7,7 @@ import org.apache.spark.sql.types.StructType;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class AppendDateTimeJavaParser extends JavaParser {
