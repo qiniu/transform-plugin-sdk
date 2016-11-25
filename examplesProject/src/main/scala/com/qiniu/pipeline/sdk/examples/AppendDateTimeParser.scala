@@ -3,7 +3,6 @@ package com.qiniu.pipeline.sdk.examples
 import java.io.{Serializable => JSerializable}
 import java.text.SimpleDateFormat
 import java.util.Date
-
 import com.qiniu.pipeline.sdk.plugin.ScalaParser
 import org.apache.spark.sql.Row
 import org.apache.spark.sql.types.StructType
